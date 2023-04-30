@@ -32,8 +32,7 @@ sgMail.setApiKey(process.env.SEND_GRID_API_KEY as string);
 // };
 export const emailVerification: RequestHandler = async (req, res, next) => {
   const { username, password, email } = req.body;
-  const newUser = { username, password, email };
-
+  const newUser = { username, email };
   const userExist = await User.findOne({
     $or: [{ username }, { email }],
   });
@@ -45,6 +44,12 @@ export const emailVerification: RequestHandler = async (req, res, next) => {
       return next(new CustomError(400, "email already exists"));
     }
   }
+  const user = new User({
+    username,
+    password,
+    email,
+  });
+  await user.save();
   const registerToken = generateEmailVarificationToken(newUser);
   const emailMessage = emailVerificationTemplate(email, registerToken);
   await sgMail.send(emailMessage);
@@ -71,14 +76,13 @@ export const createUser: RequestHandler = async (req, res, next) => {
     });
     return res.redirect(`http://localhost:5173`);
   }
-  const { username, password, email } = newUser;
-  const user = new User({
-    username,
-    password,
-    email,
-  });
+  const { username, email } = newUser;
   try {
-    await user.save();
+    //אפשר להספים אותי בכך שילחצו במשך חמש דקות מלא פעמים על הקישור עם הטוקן?
+    await User.findOneAndUpdate(
+      { username: username, email: email },
+      { isVerified: true }
+    );
   } catch (err) {
     res.cookie("verified", "Something went wrong", {
       expires: FIVE_MINUTES,
@@ -98,6 +102,9 @@ export const login: RequestHandler = async (req, res, next) => {
   const userExist = await User.findOne({ email });
   if (!userExist) {
     return next(new CustomError(401, "unauthorized"));
+  }
+  if (!userExist.isVerified) {
+    return next(new CustomError(401, "not verified"));
   }
   const isPasswordMatch = await bcrypt.compare(password, userExist.password);
   if (isPasswordMatch === false) {

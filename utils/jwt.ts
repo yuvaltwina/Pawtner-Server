@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { UserType } from "./types";
+import { UserTokenType, UserType } from "./types";
 import dotenv from "dotenv";
 import CustomError from "../errors/CustomError";
 
@@ -18,28 +18,24 @@ dotenv.config();
 
 const secret = process.env.TOKEN_SECRET;
 
-export function generateEmailVarificationToken(user: UserType) {
+export function generateEmailVarificationToken(user: UserTokenType) {
   //חייב לשלוח את הסיסמה?
-  const { username, password, email } = user;
-  const registerToken = jwt.sign(
-    { username, password, email },
-    secret as string,
-    {
-      expiresIn: "5m",
-    }
-  );
+  const { username, email } = user;
+  const registerToken = jwt.sign({ username, email }, secret as string, {
+    expiresIn: "5m",
+  });
   return registerToken;
 }
 
 export function decodeEmailVarificationToken(token: string) {
-  let newUser: undefined | UserType;
+  let newUser: undefined | UserTokenType;
   jwt.verify(token, secret as string, (err, decoded) => {
     if (err) {
       console.log("not valid token");
       return newUser;
     } else {
-      const { username, password, email } = decoded as jwtType;
-      newUser = { username, password, email };
+      const { username, email } = decoded as jwtType;
+      newUser = { username, email };
     }
   });
   return newUser;

@@ -23,10 +23,18 @@ const UserSchema = new Schema<UserType>({
     type: String,
     required: [true, "Please provide password"],
   },
-  // isVerified: {
-  //   type: Boolean,
-  //   default: false,
-  // },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  expireAt: {
+    type: Date,
+    default: Date.now,
+    index: {
+      expireAfterSeconds: 300,
+      partialFilterExpression: { isVerified: false },
+    },
+  },
 });
 
 UserSchema.pre("save", async function (next) {

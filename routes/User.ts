@@ -3,7 +3,6 @@ import {
   createUser,
   login,
   checkLoginCookie,
-  // logout,
 } from "../controllers/user";
 import express from "express";
 import newUserValidation from "../utils/validation/newUserValidation";
@@ -26,6 +25,5 @@ router.get("/register", errorWrapper(createUser));
 
 router.post("/login", errorWrapper(login));
 router.get("/loginCookie", errorWrapper(checkLoginCookie));
-// router.post("/logout", errorWrapper(logout));
 
 export { router as usersRouter };
