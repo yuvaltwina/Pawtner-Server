@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 const connectDB = require("./db/connect");
-
+// להוסיף את כל הדברי אבטחה מפרוייקטים קודמים
 dotenv.config();
 
 const uri = process.env.MONGO_URI;

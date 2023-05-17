@@ -1,28 +1,27 @@
-import { Schema, model } from "mongoose";
-const bcrypt = require("bcrypt");
-import { UserType } from "../utils/types";
-import CustomError from "../errors/CustomError";
-import { type } from "os";
-import { boolean } from "joi";
+import { Schema, model } from 'mongoose';
+import { UserType } from '../utils/types';
+import CustomError from '../errors/CustomError';
+const bcrypt = require('bcrypt');
 
-const HASH_PASS_ERROR_MSG = "An error occured while hashing the password";
-const USER_COLLECTION_NAME = "users";
+const HASH_PASS_ERROR_MSG = 'An error occured while hashing the password';
+const USER_COLLECTION_NAME = 'users';
 
 const UserSchema = new Schema<UserType>({
   username: {
     type: String,
-    required: [true, "Please provide name"],
+    required: [true, 'Please provide name'],
     unique: true,
   },
   email: {
     type: String,
-    required: [true, "Please provide email"],
+    required: [true, 'Please provide email'],
     unique: true,
   },
   password: {
     type: String,
-    required: [true, "Please provide password"],
+    required: [true, 'Please provide password'],
   },
+  likedDogs: [{ type: Schema.Types.ObjectId, ref: 'Dog', default: [] }],
   isVerified: {
     type: Boolean,
     default: false,
@@ -37,7 +36,7 @@ const UserSchema = new Schema<UserType>({
   },
 });
 
-UserSchema.pre("save", async function (next) {
+UserSchema.pre('save', async function (next) {
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
@@ -46,5 +45,5 @@ UserSchema.pre("save", async function (next) {
   }
 });
 
-const User = model<UserType>("User", UserSchema, USER_COLLECTION_NAME);
+const User = model<UserType>('User', UserSchema, USER_COLLECTION_NAME);
 export default User;

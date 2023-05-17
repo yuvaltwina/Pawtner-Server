@@ -19,7 +19,6 @@ dotenv.config();
 const secret = process.env.TOKEN_SECRET;
 
 export function generateEmailVarificationToken(user: UserTokenType) {
-  //חייב לשלוח את הסיסמה?
   const { username, email } = user;
   const registerToken = jwt.sign({ username, email }, secret as string, {
     expiresIn: "5m",
@@ -31,7 +30,6 @@ export function decodeEmailVarificationToken(token: string) {
   let newUser: undefined | UserTokenType;
   jwt.verify(token, secret as string, (err, decoded) => {
     if (err) {
-      console.log("not valid token");
       return newUser;
     } else {
       const { username, email } = decoded as jwtType;
@@ -47,7 +45,6 @@ export function decodeLoginCookieToken(token: string): loginCookieToken {
     if (err) {
       return userFrontDetails;
     } else {
-      console.log("valid");
       const { username, email } = decoded as jwtType;
       userFrontDetails = { username, email, exist: true };
     }
