@@ -31,11 +31,23 @@ const DogSchema = new Schema<DogType>({
   city: {
     type: String,
   },
-  images: {
-    type: [{ file: { type: Object }, url: { type: String } }],
+  imagesUrl: {
+    type: [String],
     required: [true, 'Please provide images'],
   },
-  likedBy: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
+  username: {
+    type: String,
+    required: [true, 'Please provide username'],
+  },
+  email: {
+    type: String,
+    required: [true, 'Please provide email'],
+  },
+  phoneNumber: {
+    type: String,
+    required: [true, 'Please provide phone number'],
+  },
+  likedBy: [{ type: String, ref: 'User', default: [] }],
 });
 
 const Dog = model<DogType>('Dog', DogSchema, DOG_COLLECTION_NAME);

@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 
 const HASH_PASS_ERROR_MSG = 'An error occured while hashing the password';
 const USER_COLLECTION_NAME = 'users';
-
+import Dog from './Dog';
 const UserSchema = new Schema<UserType>({
   username: {
     type: String,
@@ -17,11 +17,16 @@ const UserSchema = new Schema<UserType>({
     required: [true, 'Please provide email'],
     unique: true,
   },
+  phoneNumber: {
+    type: String,
+    required: [true, 'Please provide phone number'],
+  },
   password: {
     type: String,
     required: [true, 'Please provide password'],
   },
-  likedDogs: [{ type: Schema.Types.ObjectId, ref: 'Dog', default: [] }],
+  favoriteDogs: [{ type: Schema.Types.ObjectId, ref: 'Dog', default: [] }],
+  myDogs: [{ type: Schema.Types.ObjectId, ref: 'Dog', default: [] }],
   isVerified: {
     type: Boolean,
     default: false,

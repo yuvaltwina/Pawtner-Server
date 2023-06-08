@@ -22,12 +22,26 @@ const password = Joi.string()
     'string.pattern.base':
       'Password must contain at least one letter and one number',
   });
-const email = Joi.string().email().required();
+const email = Joi.string().email().required().messages({
+  'string.base': 'Email must be a valid string.',
+  'string.email': 'Please provide a valid email address.',
+  'any.required': 'Email is required.',
+});
 
+const phoneNumber = Joi.string()
+  .pattern(/^[0-9]{10}$/)
+  .required()
+  .messages({
+    'string.base': 'Phone number must be a valid string.',
+    'string.pattern.base':
+      'Phone number must contain only numbers and be 10 b digits.',
+    'any.required': 'Phone number is required.',
+  });
 const userValidationScheme = {
   username,
   password,
   email,
+  phoneNumber,
 };
 
 export default userValidationScheme;

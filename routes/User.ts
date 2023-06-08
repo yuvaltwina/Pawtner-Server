@@ -3,12 +3,12 @@ import {
   createUser,
   login,
   checkLoginCookie,
-  forgotPasswordEmail,
+  sendforgotPasswordEmail,
   changePassword,
-} from "../controllers/user";
-import express from "express";
-import newUserValidation from "../utils/validation/newUserValidation";
-import { RequestHandler } from "express";
+} from '../controllers/user';
+import express from 'express';
+import { newUserValidation } from '../utils/validation/userValidation';
+import { RequestHandler } from 'express';
 
 const router = express.Router();
 
@@ -18,17 +18,17 @@ const errorWrapper =
     cb(req, res, next).catch(next);
 
 router.post(
-  "/verification",
+  '/verification',
   newUserValidation,
   errorWrapper(emailVerification)
 );
 
-router.get("/register", errorWrapper(createUser));
+router.get('/register', errorWrapper(createUser));
 
-router.post("/login", errorWrapper(login));
-router.get("/loginCookie", errorWrapper(checkLoginCookie));
+router.post('/login', errorWrapper(login));
+router.get('/loginCookie', errorWrapper(checkLoginCookie));
 
-router.post("/forgotPassword", errorWrapper(forgotPasswordEmail));
-router.post("/changePassword", errorWrapper(changePassword));
+router.post('/forgotPassword', errorWrapper(sendforgotPasswordEmail));
+router.post('/changePassword', errorWrapper(changePassword));
 
 export { router as usersRouter };

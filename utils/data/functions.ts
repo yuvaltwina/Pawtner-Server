@@ -8,3 +8,8 @@ export const capitalizeOnlyFirstChars = (str: string) => {
   });
   return capitalizedWords.join(' ');
 };
+export const phoneNumberFormating = (str: string) => {
+  const phoneFormatString =
+    str.slice(0, 3) + '-' + str.slice(3, 6) + '-' + str.slice(6);
+  return phoneFormatString;
+};

@@ -16,14 +16,18 @@ import dotenv from 'dotenv';
 import serverResponse from '../utils/serverResponse';
 import Joi from 'joi';
 import userValidationScheme from '../utils/validation/userDependencies';
+import { phoneNumberFormating } from '../utils/data/functions';
 const bcrypt = require('bcrypt');
 
 const FIVE_MINUTES = new Date(Date.now() + 5 * 60 * 1000);
 
 dotenv.config();
 sgMail.setApiKey(process.env.SEND_GRID_API_KEY as string);
-
-export const forgotPasswordEmail: RequestHandler = async (req, res, next) => {
+export const sendforgotPasswordEmail: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
   const { email } = req.body;
   const { email: emailDependencies } = userValidationScheme;
   const { error, value } = Joi.object({ emailDependencies }).validate({
@@ -36,20 +40,18 @@ export const forgotPasswordEmail: RequestHandler = async (req, res, next) => {
   if (!userExist) {
     return next(new CustomError(404, 'Email not registered'));
   }
-  const { username } = userExist;
-  const userDetails = { username, email };
+  const { username, phoneNumber } = userExist;
+  const userDetails = { username, email, phoneNumber };
   const forgotPasswordToken = generateEmailVarificationToken(userDetails);
   const emailMessage = emailForgotPasswordTemplate(email, forgotPasswordToken);
   await sgMail.send(emailMessage);
   return res.status(201).json(serverResponse('Email sent successfully'));
 };
-
+//לא קשור לטלפון להחזיר את היוזר לעמוד הראשי אחרי שינוי סיסמא מוצלח
 export const changePassword: RequestHandler = async (req, res, next) => {
   const { token, newPassword } = req.body;
   if (!token || typeof token !== 'string') {
-    return res
-      .status(201)
-      .json(serverResponse('token is missing or sent inccorectly'));
+    return next(new CustomError(400, 'token is missing or sent inccorectly'));
   }
   const { password } = userValidationScheme;
   const { error, value } = Joi.object({ password }).validate({
@@ -78,10 +80,9 @@ export const changePassword: RequestHandler = async (req, res, next) => {
   await userExist.save();
   return res.status(201).json(serverResponse('Password changed!'));
 };
-
 export const emailVerification: RequestHandler = async (req, res, next) => {
-  const { username, password, email } = req.body;
-  const newUser = { username, email };
+  const { username, password, phoneNumber, email } = req.body;
+  const newUser = { username, email, phoneNumber };
   const userExist = await User.findOne({
     $or: [{ username }, { email }],
   });
@@ -97,6 +98,7 @@ export const emailVerification: RequestHandler = async (req, res, next) => {
     username,
     password,
     email,
+    phoneNumber,
   });
   await user.save();
   const registerToken = generateEmailVarificationToken(newUser);
@@ -107,7 +109,6 @@ export const emailVerification: RequestHandler = async (req, res, next) => {
     .status(201)
     .json(serverResponse('verification email sent successfully'));
 };
-
 export const createUser: RequestHandler = async (req, res, next) => {
   const registerToken = req.query.token;
   if (!registerToken || typeof registerToken !== 'string') {
@@ -128,7 +129,13 @@ export const createUser: RequestHandler = async (req, res, next) => {
   const { username, email } = newUser;
   try {
     //אפשר להספים אותי בכך שילחצו במשך חמש דקות מלא פעמים על הקישור עם הטוקן?
-    await User.findOneAndUpdate({ username, email }, { isVerified: true });
+    const user = await User.findOneAndUpdate(
+      { username, email },
+      { isVerified: true }
+    );
+    if (!user) {
+      return next(new CustomError(404, 'user not exist'));
+    }
   } catch (err) {
     res.cookie('verified', 'Something went wrong', {
       expires: FIVE_MINUTES,
@@ -156,26 +163,32 @@ export const login: RequestHandler = async (req, res, next) => {
   if (isPasswordMatch === false) {
     return next(new CustomError(401, 'unauthorized'));
   }
+  const formatedPhoneNumber = phoneNumberFormating(userExist.phoneNumber);
   const userFrontDetails = {
     username: userExist.username,
     email: userExist.email,
+    phoneNumber: formatedPhoneNumber,
   };
-  const loginToken = generateloginToken(userExist.username, userExist.email);
+  const loginToken = generateloginToken(
+    userExist.username,
+    userExist.email,
+    userExist.phoneNumber
+  );
   // res.cookie("login", loginToken, { expires: SEVEN_DAYS, httpOnly: true });
-  console.log('cookie created');
   return res
     .status(201)
     .json(
       serverResponse('Successfully logged in', { loginToken, userFrontDetails })
     );
 };
-
+//פתרתי?
 export const checkLoginCookie: RequestHandler = async (req, res, next) => {
   const token = req.cookies.login;
-  const { username, email, exist } = decodeLoginCookieToken(token);
+  const { username, email, phoneNumber, exist } = decodeLoginCookieToken(token);
   if (!exist) {
     return next(new CustomError(401, 'unauthorized'));
   }
-  const user = { username, email };
+  const formatedPhoneNumber = phoneNumberFormating(phoneNumber);
+  const user = { username, email, phoneNumber: formatedPhoneNumber };
   return res.status(200).json(serverResponse('User exist', user));
 };
