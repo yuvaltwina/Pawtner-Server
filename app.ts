@@ -13,7 +13,7 @@ const connectDB = require('./db/connect');
 dotenv.config();
 
 const uri = process.env.MONGO_URI;
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
 const app = express();
 
