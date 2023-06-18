@@ -13,13 +13,13 @@ const connectDB = require('./db/connect');
 dotenv.config();
 
 const uri = process.env.MONGO_URI;
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 const app = express();
 
 app.use(
   cors({
-    origin: 'https://pawtner-front.vercel.app/',
+    origin: 'http://localhost:5173',
     credentials: true, //access-control-allow-credentials:true
   })
 );
@@ -36,7 +36,7 @@ const start = async () => {
   try {
     await connectDB(uri);
     app.listen(port, () => {
-      console.log(`Server listening at port:${port}`);
+      console.log(`Server listening at http://localhost:${port}`);
     });
   } catch (error) {
     throw new CustomError();

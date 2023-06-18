@@ -17,10 +17,11 @@ import serverResponse from '../utils/serverResponse';
 import Joi from 'joi';
 import userValidationScheme from '../utils/validation/userDependencies';
 import { phoneNumberFormating } from '../utils/data/functions';
+import { capitalizeOnlyFirstChars } from '../utils/data/functions';
 const bcrypt = require('bcrypt');
 
 const FIVE_MINUTES = new Date(Date.now() + 5 * 60 * 1000);
-
+//האם אני צריך לבדוק לפני כל פונקציה את הטייפ של המשתנים שאני מקבל כדי שלא יכולו להקריס
 dotenv.config();
 sgMail.setApiKey(process.env.SEND_GRID_API_KEY as string);
 export const sendforgotPasswordEmail: RequestHandler = async (
@@ -82,9 +83,10 @@ export const changePassword: RequestHandler = async (req, res, next) => {
 };
 export const emailVerification: RequestHandler = async (req, res, next) => {
   const { username, password, phoneNumber, email } = req.body;
-  const newUser = { username, email, phoneNumber };
+  const formatedUsername = capitalizeOnlyFirstChars(username);
+  const newUser = { username: formatedUsername, email, phoneNumber };
   const userExist = await User.findOne({
-    $or: [{ username }, { email }],
+    $or: [{ formatedUsername }, { email }],
   });
   if (userExist) {
     if (userExist.username === newUser.username) {
@@ -95,7 +97,7 @@ export const emailVerification: RequestHandler = async (req, res, next) => {
     }
   }
   const user = new User({
-    username,
+    username: formatedUsername,
     password,
     email,
     phoneNumber,
@@ -104,7 +106,6 @@ export const emailVerification: RequestHandler = async (req, res, next) => {
   const registerToken = generateEmailVarificationToken(newUser);
   const emailMessage = emailVerificationTemplate(email, registerToken);
   await sgMail.send(emailMessage);
-
   return res
     .status(201)
     .json(serverResponse('verification email sent successfully'));
@@ -143,7 +144,8 @@ export const createUser: RequestHandler = async (req, res, next) => {
     });
     return res.redirect(`http://localhost:5173`);
   }
-  res.cookie('verified', 'Successfully verified', {
+  console.log('verified');
+  res.cookie('verified', 'Successfully Verified', {
     expires: FIVE_MINUTES,
     // httpOnly: true,
   });
@@ -181,7 +183,6 @@ export const login: RequestHandler = async (req, res, next) => {
       serverResponse('Successfully logged in', { loginToken, userFrontDetails })
     );
 };
-//פתרתי?
 export const checkLoginCookie: RequestHandler = async (req, res, next) => {
   const token = req.cookies.login;
   const { username, email, phoneNumber, exist } = decodeLoginCookieToken(token);

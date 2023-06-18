@@ -2,10 +2,8 @@ import { Schema, model } from 'mongoose';
 import { UserType } from '../utils/types';
 import CustomError from '../errors/CustomError';
 const bcrypt = require('bcrypt');
-
 const HASH_PASS_ERROR_MSG = 'An error occured while hashing the password';
 const USER_COLLECTION_NAME = 'users';
-import Dog from './Dog';
 const UserSchema = new Schema<UserType>({
   username: {
     type: String,

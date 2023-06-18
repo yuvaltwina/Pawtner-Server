@@ -4,11 +4,11 @@ import serverResponse from '../utils/serverResponse';
 import { RequestHandler } from 'express';
 import { DogFrontSentDataType, DogType, UserType } from '../utils/types';
 import { capitalizeOnlyFirstChars } from '../utils/data/functions';
-import { decodeLoginCookieToken } from '../utils/jwt';
 import CustomError from '../errors/CustomError';
 import User from '../models/User';
 const bcrypt = require('bcrypt');
 //חשוב! לשנות בכולם שיקבלו יוזרניימ דרך הטוקן ולא סתם מהמשתמש
+//האם אני צריך לבדוק לפני כל פונקציה את הטייפ של המשתנים שאני מקבל כדי שלא יכולו להקריס
 
 export const createDog: RequestHandler = async (req, res, next) => {
   const { username, email, phoneNumber } = req.body;
@@ -109,12 +109,14 @@ export const deleteDog: RequestHandler = async (req, res, next) => {
   }
   return res.status(200).json(serverResponse('deleted successfully'));
 };
+
 export const getAllDogs: RequestHandler = async (req, res, next) => {
   const allDogs = await Dog.find({});
   return res
     .status(200)
     .json(serverResponse('sent successfully', { dogs: allDogs }));
 };
+
 export const addDogToFavorties: RequestHandler = async (req, res, next) => {
   const { username, dogId } = req.body;
   const favoriteDog = await Dog.findOne({ _id: dogId });
