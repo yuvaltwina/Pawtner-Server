@@ -16,6 +16,7 @@ import {} from '../controllers/user';
 import express from 'express';
 import { RequestHandler } from 'express';
 import { userCookieValidtion } from '../utils/validation/userValidation';
+import { adminValidation } from '../middleware/checkIfAdmin';
 const router = express.Router();
 
 const errorWrapper =
@@ -26,6 +27,7 @@ const errorWrapper =
 router.get('/getAllDogs', errorWrapper(getAllDogs));
 
 router.use(userCookieValidtion);
+router.use(adminValidation);
 
 router.post('/addDog', newDogValidation, errorWrapper(createDog));
 router.post('/editDog', editDogValidation, errorWrapper(editDog));

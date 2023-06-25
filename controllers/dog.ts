@@ -95,8 +95,17 @@ export const getUserDogsList: RequestHandler = async (req, res, next) => {
 };
 export const deleteDog: RequestHandler = async (req, res, next) => {
   const { username, id } = req.body;
+  let isAdmin = false;
+  let adminRequestedUsername;
+
+  //לבדוק אם זה דרך בסדר לאדמין
+  if (username === 'Admin') {
+    isAdmin = true;
+    const { adminUsername } = req.body;
+    adminRequestedUsername = adminUsername;
+  }
   const user = await User.findOneAndUpdate(
-    { username },
+    { username: isAdmin ? adminRequestedUsername : username },
     { $pull: { myDogs: id, favoriteDogs: id } },
     { new: true }
   );
