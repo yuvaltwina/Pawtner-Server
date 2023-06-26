@@ -48,9 +48,9 @@ const cookie_parser_1 = __importDefault(require('cookie-parser'));
 const cors_1 = __importDefault(require('cors'));
 const body_parser_1 = __importDefault(require('body-parser'));
 // const connectDB = require('./db/connect');
-//לפתור את הבעיה מהקונסול
 // להוסיף את כל הדברי אבטחה מפרוייקטים קודמים
 dotenv_1.default.config();
+//הכנסתי את זה לפה ישירות במקום האימפורט
 const mongoose = require('mongoose');
 const connectDB = (url) => {
   return mongoose.connect(url, {
@@ -89,7 +89,11 @@ const start = () =>
         console.log(`Server listening at http://localhost:${port}`);
       });
     } catch (error) {
-      throw new CustomError_1.default();
+      throw new CustomError_1.default(
+        500,
+        (error === null || error === void 0 ? void 0 : error.message) ||
+          'Internal server error'
+      );
     }
   });
 start();
