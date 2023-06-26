@@ -8,12 +8,11 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 // const connectDB = require('./db/connect');
-//לפתור את הבעיה מהקונסול
 // להוסיף את כל הדברי אבטחה מפרוייקטים קודמים
 dotenv.config();
 
+//הכנסתי את זה לפה ישירות במקום האימפורט
 const mongoose = require('mongoose');
-
 const connectDB = (url: string) => {
   return mongoose.connect(url, {
     useNewUrlParser: true,
