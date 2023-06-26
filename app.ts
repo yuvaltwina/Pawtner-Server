@@ -53,7 +53,7 @@ const start = async () => {
       console.log(`Server listening at http://localhost:${port}`);
     });
   } catch (error: any) {
-    throw new CustomError(500, 'wtf');
+    throw new CustomError(500, error?.message || 'Internal server error');
   }
 };
 start();
