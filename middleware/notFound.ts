@@ -5,5 +5,4 @@ const notFound = (req: Request, res: Response) => {
     message: 'route not found',
   });
 };
-// throw new CustomError(404, "Route does not exist");
 export default notFound;
