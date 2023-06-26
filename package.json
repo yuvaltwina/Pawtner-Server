@@ -2,7 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.ts",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "start": "ts-node-dev app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
