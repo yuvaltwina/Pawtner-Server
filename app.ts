@@ -7,7 +7,6 @@ import notFound from './middleware/notFound';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-console.log(2);
 // const connectDB = require('./db/connect');
 // להוסיף את כל הדברי אבטחה מפרוייקטים קודמים
 dotenv.config();
@@ -54,8 +53,7 @@ const start = async () => {
       console.log(`Server listening at http://localhost:${port}`);
     });
   } catch (error: any) {
-    console.log(1);
-    throw new CustomError(500, error?.message || 'Internal server error');
+    throw new CustomError(500, 'wtf');
   }
 };
 start();
