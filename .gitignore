@@ -38,3 +38,4 @@ todo.txt
 server/gcs-key.jso
 node_modules
 .env
+/node_modules/
