@@ -13,7 +13,7 @@ const connectDB = require('./db/connect');
 dotenv.config();
 
 const uri = process.env.MONGO_URI;
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const app = express();
 
@@ -27,7 +27,11 @@ app.use(
 app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb' }));
-
+app.get('/home', (req, res) => {
+  res.status(200).json({
+    message: 'home route',
+  });
+});
 app.use('/', MainRoute);
 app.use(notFound);
 app.use(errorHandler);
