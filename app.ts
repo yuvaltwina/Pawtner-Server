@@ -7,11 +7,22 @@ import notFound from './middleware/notFound';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-
-const connectDB = require('./db/connect');
+// const connectDB = require('./db/connect');
 //לפתור את הבעיה מהקונסול
 // להוסיף את כל הדברי אבטחה מפרוייקטים קודמים
 dotenv.config();
+
+const mongoose = require('mongoose');
+
+const connectDB = (url: string) => {
+  return mongoose.connect(url, {
+    useNewUrlParser: true,
+    dbName: 'Pawtner',
+    useUnifiedTopology: true,
+    // useCreateIndex: true,
+    // useFindAndModify: false,
+  });
+};
 
 const uri = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
@@ -39,7 +50,7 @@ app.use(errorHandler);
 
 const start = async () => {
   try {
-    await connectDB(uri);
+    await connectDB(uri as string);
     app.listen(port, () => {
       console.log(`Server listening at http://localhost:${port}`);
     });
