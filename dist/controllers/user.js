@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkLoginCookie = exports.login = exports.createUser = exports.emailVerification = exports.changePassword = exports.sendforgotPasswordEmail = void 0;
+const variables_1 = require("./../utils/data/variables");
 const sendGridTemplate_1 = require("./../utils/sendGridTemplate");
 const CustomError_1 = __importDefault(require("../errors/CustomError"));
 const User_1 = __importDefault(require("../models/User"));
@@ -119,7 +120,7 @@ const createUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             expires: FIVE_MINUTES,
             // httpOnly: true,
         });
-        return res.redirect(`http://localhost:5173`);
+        return res.redirect(variables_1.WEBSITE_URL);
     }
     const newUser = (0, jwt_1.decodeEmailVarificationToken)(registerToken);
     if (!newUser) {
@@ -127,7 +128,7 @@ const createUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             expires: FIVE_MINUTES,
             // httpOnly: true,
         });
-        return res.redirect(`http://localhost:5173`);
+        return res.redirect(variables_1.WEBSITE_URL);
     }
     const { username, email } = newUser;
     try {
@@ -142,14 +143,14 @@ const createUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             expires: FIVE_MINUTES,
             // httpOnly: true,
         });
-        return res.redirect(`http://localhost:5173`);
+        return res.redirect(variables_1.WEBSITE_URL);
     }
     console.log('verified');
     res.cookie('verified', 'Successfully Verified', {
         expires: FIVE_MINUTES,
         // httpOnly: true,
     });
-    return res.redirect(`http://localhost:5173`);
+    return res.redirect(variables_1.WEBSITE_URL);
 });
 exports.createUser = createUser;
 const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {

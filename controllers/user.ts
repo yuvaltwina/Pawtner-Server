@@ -1,3 +1,4 @@
+import { WEBSITE_URL } from './../utils/data/variables';
 import {
   emailForgotPasswordTemplate,
   emailVerificationTemplate,
@@ -117,7 +118,7 @@ export const createUser: RequestHandler = async (req, res, next) => {
       expires: FIVE_MINUTES,
       // httpOnly: true,
     });
-    return res.redirect(`http://localhost:5173`);
+    return res.redirect(WEBSITE_URL);
   }
   const newUser = decodeEmailVarificationToken(registerToken);
   if (!newUser) {
@@ -125,7 +126,7 @@ export const createUser: RequestHandler = async (req, res, next) => {
       expires: FIVE_MINUTES,
       // httpOnly: true,
     });
-    return res.redirect(`http://localhost:5173`);
+    return res.redirect(WEBSITE_URL);
   }
   const { username, email } = newUser;
   try {
@@ -142,14 +143,14 @@ export const createUser: RequestHandler = async (req, res, next) => {
       expires: FIVE_MINUTES,
       // httpOnly: true,
     });
-    return res.redirect(`http://localhost:5173`);
+    return res.redirect(WEBSITE_URL);
   }
   console.log('verified');
   res.cookie('verified', 'Successfully Verified', {
     expires: FIVE_MINUTES,
     // httpOnly: true,
   });
-  return res.redirect(`http://localhost:5173`);
+  return res.redirect(WEBSITE_URL);
 };
 
 export const login: RequestHandler = async (req, res, next) => {
