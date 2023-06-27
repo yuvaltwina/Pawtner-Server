@@ -27,7 +27,11 @@ const newUserValidation = (req, res, next) => {
 };
 exports.newUserValidation = newUserValidation;
 const userCookieValidtion = (req, res, next) => {
-    const token = req.cookies.login;
+    var _a, _b;
+    const token = (_b = (_a = req.headers) === null || _a === void 0 ? void 0 : _a.authorization) === null || _b === void 0 ? void 0 : _b.split(' ')[1];
+    if (!token) {
+        return next(new CustomError_1.default(401, 'token missing'));
+    }
     const { email, username, phoneNumber, exist } = (0, jwt_1.decodeLoginCookieToken)(token);
     console.log(`user exist on action  exist: ${exist}`);
     console.log(`user username on action   : ${username}`);

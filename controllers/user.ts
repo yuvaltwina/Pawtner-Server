@@ -185,7 +185,10 @@ export const login: RequestHandler = async (req, res, next) => {
     );
 };
 export const checkLoginCookie: RequestHandler = async (req, res, next) => {
-  const token = req.cookies.login;
+  const token = req.headers?.authorization?.split(' ')[1];
+  if (!token) {
+    return next(new CustomError(401, 'token missing'));
+  }
   const { username, email, phoneNumber, exist } = decodeLoginCookieToken(token);
   console.log(`login cookie token : ${token}`);
   console.log(`login cookie username : ${username}`);

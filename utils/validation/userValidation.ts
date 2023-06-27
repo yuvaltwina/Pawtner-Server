@@ -23,7 +23,10 @@ export const newUserValidation: RequestHandler = (req, res, next) => {
 };
 
 export const userCookieValidtion: RequestHandler = (req, res, next) => {
-  const token = req.cookies.login;
+  const token = req.headers?.authorization?.split(' ')[1];
+  if (!token) {
+    return next(new CustomError(401, 'token missing'));
+  }
   const { email, username, phoneNumber, exist } = decodeLoginCookieToken(token);
   console.log(`user exist on action  exist: ${exist}`);
   console.log(`user username on action   : ${username}`);

@@ -180,7 +180,11 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.login = login;
 const checkLoginCookie = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const token = req.cookies.login;
+    var _a, _b;
+    const token = (_b = (_a = req.headers) === null || _a === void 0 ? void 0 : _a.authorization) === null || _b === void 0 ? void 0 : _b.split(' ')[1];
+    if (!token) {
+        return next(new CustomError_1.default(401, 'token missing'));
+    }
     const { username, email, phoneNumber, exist } = (0, jwt_1.decodeLoginCookieToken)(token);
     console.log(`login cookie token : ${token}`);
     console.log(`login cookie username : ${username}`);
