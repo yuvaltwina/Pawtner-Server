@@ -25,6 +25,8 @@ export const newUserValidation: RequestHandler = (req, res, next) => {
 export const userCookieValidtion: RequestHandler = (req, res, next) => {
   const token = req.cookies.login;
   const { email, username, phoneNumber, exist } = decodeLoginCookieToken(token);
+  console.log(`user exist on action  exist: ${exist}`);
+  console.log(`user username on action   : ${username}`);
   if (!exist) {
     return next(new CustomError(401, 'unauthorized'));
   }
