@@ -181,6 +181,8 @@ exports.login = login;
 const checkLoginCookie = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.cookies.login;
     const { username, email, phoneNumber, exist } = (0, jwt_1.decodeLoginCookieToken)(token);
+    console.log(username);
+    console.log(exist);
     if (!exist) {
         return next(new CustomError_1.default(401, 'unauthorized'));
     }
