@@ -186,6 +186,8 @@ export const login: RequestHandler = async (req, res, next) => {
 export const checkLoginCookie: RequestHandler = async (req, res, next) => {
   const token = req.cookies.login;
   const { username, email, phoneNumber, exist } = decodeLoginCookieToken(token);
+  console.log(username);
+  console.log(exist);
   if (!exist) {
     return next(new CustomError(401, 'unauthorized'));
   }
