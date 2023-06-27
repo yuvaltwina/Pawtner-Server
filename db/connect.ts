@@ -9,5 +9,6 @@ const connectDB = (url: string) => {
     // useFindAndModify: false,
   });
 };
+export default connectDB;
 
-module.exports = connectDB;
+// module.exports = connectDB;

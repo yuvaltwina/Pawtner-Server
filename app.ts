@@ -7,7 +7,8 @@ import notFound from './middleware/notFound';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-const connectDB = require('./db/connect');
+import connectDB from './db/connect';
+// const connectDB = require('./db/connect');
 // להוסיף את כל הדברי אבטחה מפרוייקטים קודמים
 dotenv.config();
 
