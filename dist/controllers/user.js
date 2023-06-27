@@ -186,9 +186,6 @@ const checkLoginCookie = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         return next(new CustomError_1.default(401, 'token missing'));
     }
     const { username, email, phoneNumber, exist } = (0, jwt_1.decodeLoginCookieToken)(token);
-    console.log(`login cookie token : ${token}`);
-    console.log(`login cookie username : ${username}`);
-    console.log(`login cookie exist : ${exist}`);
     if (!exist) {
         return next(new CustomError_1.default(401, 'unauthorized'));
     }

@@ -33,8 +33,6 @@ const userCookieValidtion = (req, res, next) => {
         return next(new CustomError_1.default(401, 'token missing'));
     }
     const { email, username, phoneNumber, exist } = (0, jwt_1.decodeLoginCookieToken)(token);
-    console.log(`user exist on action  exist: ${exist}`);
-    console.log(`user username on action   : ${username}`);
     if (!exist) {
         return next(new CustomError_1.default(401, 'unauthorized'));
     }

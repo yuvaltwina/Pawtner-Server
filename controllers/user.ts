@@ -190,9 +190,6 @@ export const checkLoginCookie: RequestHandler = async (req, res, next) => {
     return next(new CustomError(401, 'token missing'));
   }
   const { username, email, phoneNumber, exist } = decodeLoginCookieToken(token);
-  console.log(`login cookie token : ${token}`);
-  console.log(`login cookie username : ${username}`);
-  console.log(`login cookie exist : ${exist}`);
   if (!exist) {
     return next(new CustomError(401, 'unauthorized'));
   }
