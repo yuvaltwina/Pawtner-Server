@@ -23,7 +23,10 @@ const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const connect_1 = __importDefault(require("./db/connect"));
 const variables_1 = require("./utils/data/variables");
+<<<<<<< HEAD
 // const connectDB = require('./db/connect');
+=======
+>>>>>>> main
 // להוסיף את כל הדברי אבטחה מפרוייקטים קודמים
 dotenv_1.default.config();
 const uri = process.env.MONGO_URI;
