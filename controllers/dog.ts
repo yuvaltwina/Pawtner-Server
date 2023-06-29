@@ -6,8 +6,6 @@ import { DogFrontSentDataType, DogType, UserType } from '../utils/types';
 import { capitalizeOnlyFirstChars } from '../utils/data/functions';
 import CustomError from '../errors/CustomError';
 import User from '../models/User';
-const bcrypt = require('bcrypt');
-//חשוב! לשנות בכולם שיקבלו יוזרניימ דרך הטוקן ולא סתם מהמשתמש
 //האם אני צריך לבדוק לפני כל פונקציה את הטייפ של המשתנים שאני מקבל כדי שלא יכולו להקריס
 
 export const createDog: RequestHandler = async (req, res, next) => {
@@ -60,7 +58,6 @@ export const createDog: RequestHandler = async (req, res, next) => {
   await dog.save();
   return res.status(201).json(serverResponse('dog created successfully'));
 };
-//במחיקת כלב למחוק אותו מכל מי שעשה לו לייק דרך לייקד ביי
 export const editDog: RequestHandler = async (req, res, next) => {
   const { name, breed, gender, age, size, about, city } = req.body?.data;
   const { _id } = req.body;
@@ -125,7 +122,6 @@ export const getAllDogs: RequestHandler = async (req, res, next) => {
     .status(200)
     .json(serverResponse('sent successfully', { dogs: allDogs }));
 };
-
 export const addDogToFavorties: RequestHandler = async (req, res, next) => {
   const { username, dogId } = req.body;
   const favoriteDog = await Dog.findOne({ _id: dogId });

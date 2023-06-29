@@ -22,6 +22,7 @@ const newDogValidation = (req, res, next) => {
         images: dogImagesSchema,
     }).validate(newDog);
     if (error) {
+        console.log(error.message);
         return next(new CustomError_1.default(400, error.message));
     }
     else {

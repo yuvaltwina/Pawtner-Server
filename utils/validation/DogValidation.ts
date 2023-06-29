@@ -1,5 +1,4 @@
 import Joi from 'joi';
-import { UserType } from '../types';
 import { RequestHandler } from 'express';
 import dogValidationScheme from './dogDependencies';
 import CustomError from '../../errors/CustomError';

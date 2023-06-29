@@ -8,14 +8,14 @@ const dogBuiltInOptions_1 = require("../data/dogBuiltInOptions");
 const { ageValuesArray, cityValuesArray, sizeValuesArray, breedValuesArray, genderValuesArray, } = dogBuiltInOptions_1.dogBuiltInOptions;
 const IMAGE_MAX_SIZE = 5 * 1024 * 1024;
 const NAME_REGEX = /^(?=.*[a-zA-Z].*[a-zA-Z])[a-zA-Z\s]{2,12}$/;
-const ABOUT_REGEX = /^.{15,200}$/;
+const ABOUT_REGEX = /^.{20,500}$/;
 const ALLOWED_IMAGE_TYPES_REGEX = /^data:image\/(jpeg|jpg|png|avif);base64,/;
 const dogNameSchema = joi_1.default.string().pattern(NAME_REGEX).required().messages({
     'string.pattern.base': 'The name must be between 2 and 12 characters and contain only letters.',
     'any.required': 'The name field is required.',
 });
 const dogAboutSchema = joi_1.default.string().pattern(ABOUT_REGEX).required().messages({
-    'string.pattern.base': 'The about field must be between 15 and 200 characters and contain only letters and numbers.',
+    'string.pattern.base': 'The about field must be between 20 and 500 characters and contain only letters and numbers.',
     'any.required': 'The about field is required.',
 });
 const dogBreedSchema = joi_1.default.string()
