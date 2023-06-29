@@ -19,8 +19,6 @@ const serverResponse_1 = __importDefault(require("../utils/serverResponse"));
 const functions_2 = require("../utils/data/functions");
 const CustomError_1 = __importDefault(require("../errors/CustomError"));
 const User_1 = __importDefault(require("../models/User"));
-const bcrypt = require('bcrypt');
-//חשוב! לשנות בכולם שיקבלו יוזרניימ דרך הטוקן ולא סתם מהמשתמש
 //האם אני צריך לבדוק לפני כל פונקציה את הטייפ של המשתנים שאני מקבל כדי שלא יכולו להקריס
 const createDog = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, email, phoneNumber } = req.body;
@@ -55,7 +53,6 @@ const createDog = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     return res.status(201).json((0, serverResponse_1.default)('dog created successfully'));
 });
 exports.createDog = createDog;
-//במחיקת כלב למחוק אותו מכל מי שעשה לו לייק דרך לייקד ביי
 const editDog = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { name, breed, gender, age, size, about, city } = (_a = req.body) === null || _a === void 0 ? void 0 : _a.data;
