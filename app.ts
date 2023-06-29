@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import connectDB from './db/connect';
-// const connectDB = require('./db/connect');
+import { WEBSITE_URL } from './utils/data/variables';
 // להוסיף את כל הדברי אבטחה מפרוייקטים קודמים
 dotenv.config();
 
@@ -19,7 +19,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: 'https://pawtner-client.vercel.app',
+    origin: WEBSITE_URL,
     credentials: true, //access-control-allow-credentials:true
   })
 );

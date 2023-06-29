@@ -22,14 +22,14 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const connect_1 = __importDefault(require("./db/connect"));
-// const connectDB = require('./db/connect');
+const variables_1 = require("./utils/data/variables");
 // להוסיף את כל הדברי אבטחה מפרוייקטים קודמים
 dotenv_1.default.config();
 const uri = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
-    origin: 'https://pawtner-client.vercel.app',
+    origin: variables_1.WEBSITE_URL,
     credentials: true, //access-control-allow-credentials:true
 }));
 app.use((0, cookie_parser_1.default)());
