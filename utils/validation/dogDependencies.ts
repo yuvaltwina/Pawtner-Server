@@ -10,13 +10,13 @@ const {
 } = dogBuiltInOptions;
 
 const IMAGE_MAX_SIZE = 5 * 1024 * 1024;
-const NAME_REGEX = /^(?=.*[a-zA-Z].*[a-zA-Z])[a-zA-Z\s]{2,12}$/;
+const NAME_REGEX = /^(?=.*[a-zA-Z].*[a-zA-Z])[a-zA-Z\s]{2,18}$/;
 const ABOUT_REGEX = /^.{15,200}$/;
 const ALLOWED_IMAGE_TYPES_REGEX = /^data:image\/(jpeg|jpg|png|avif);base64,/;
 
 const dogNameSchema = Joi.string().pattern(NAME_REGEX).required().messages({
   'string.pattern.base':
-    'The name must be between 2 and 12 characters and contain only letters.',
+    'The name must be between 2 and 18 characters and contain only letters.',
   'any.required': 'The name field is required.',
 });
 const dogAboutSchema = Joi.string().pattern(ABOUT_REGEX).required().messages({
