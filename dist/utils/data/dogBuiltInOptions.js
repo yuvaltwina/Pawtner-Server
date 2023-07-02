@@ -9,7 +9,12 @@ const citiesArray = [...new Set(citiesArrayContainDuplicates)];
 exports.dogBuiltInOptions = {
     breedValuesArray: dogBreeds_1.allBreedsArray,
     genderValuesArray: ['Male', 'Female'],
-    ageValuesArray: ['Puppy', 'Young', 'Adult', 'Senior'],
+    ageValuesArray: [
+        'Puppy (0-1 years)',
+        'Young (1-3 years)',
+        'Adult (3-7 years)',
+        'Senior (7+ years)',
+    ],
     sizeValuesArray: [
         'Small (0-25 lbs)',
         'Medium (26-60 lbs)',

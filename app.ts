@@ -9,10 +9,6 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import connectDB from './db/connect';
 import { WEBSITE_URL } from './utils/data/variables';
-<<<<<<< HEAD
-// const connectDB = require('./db/connect');
-=======
->>>>>>> main
 // להוסיף את כל הדברי אבטחה מפרוייקטים קודמים
 dotenv.config();
 
