@@ -77,9 +77,3 @@ export function generateloginToken(
   );
   return registerToken;
 }
-
-// export function generateLoginToken(user: UserType) {
-//   const { username, password, email } = user;
-
-//   return jwt.sign(user, secret, { expiresIn: "7m" });
-// }

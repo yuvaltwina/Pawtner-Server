@@ -56,8 +56,4 @@ function generateloginToken(username, email, phoneNumber) {
     return registerToken;
 }
 exports.generateloginToken = generateloginToken;
-// export function generateLoginToken(user: UserType) {
-//   const { username, password, email } = user;
-//   return jwt.sign(user, secret, { expiresIn: "7m" });
-// }
 //# sourceMappingURL=jwt.js.map

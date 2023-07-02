@@ -114,23 +114,14 @@ export const emailVerification: RequestHandler = async (req, res, next) => {
 export const createUser: RequestHandler = async (req, res, next) => {
   const registerToken = req.query.token;
   if (!registerToken || typeof registerToken !== 'string') {
-    res.cookie('verified', 'Token is missing or sent incorectly', {
-      expires: FIVE_MINUTES,
-      // httpOnly: true,
-    });
-    return res.redirect(WEBSITE_URL);
+    return res.status(302).redirect(`${WEBSITE_URL}?message=Not a valid token`);
   }
   const newUser = decodeEmailVarificationToken(registerToken);
   if (!newUser) {
-    res.cookie('verified', 'Not a valid token', {
-      expires: FIVE_MINUTES,
-      // httpOnly: true,
-    });
-    return res.redirect(WEBSITE_URL);
+    return res.status(302).redirect(`${WEBSITE_URL}?message=Not a valid token`);
   }
   const { username, email } = newUser;
   try {
-    //אפשר להספים אותי בכך שילחצו במשך חמש דקות מלא פעמים על הקישור עם הטוקן?
     const user = await User.findOneAndUpdate(
       { username, email },
       { isVerified: true }
@@ -139,17 +130,12 @@ export const createUser: RequestHandler = async (req, res, next) => {
       return next(new CustomError(404, 'user not exist'));
     }
   } catch (err) {
-    res.cookie('verified', 'Something went wrong', {
-      expires: FIVE_MINUTES,
-      // httpOnly: true,
-    });
-    return res.redirect(WEBSITE_URL);
+    return res
+      .status(302)
+      .redirect(`${WEBSITE_URL}?message=Something went wrong`);
   }
-  console.log('verified');
-  res.cookie('verified', 'Successfully Verified', {
-    expires: FIVE_MINUTES,
-    // httpOnly: true,
-  });
+  res.status(302).redirect(`${WEBSITE_URL}?message=Successfully Verified`);
+
   return res.redirect(WEBSITE_URL);
 };
 
