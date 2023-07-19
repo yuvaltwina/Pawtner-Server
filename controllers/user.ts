@@ -21,9 +21,8 @@ import { phoneNumberFormating } from '../utils/data/functions';
 import { capitalizeOnlyFirstChars } from '../utils/data/functions';
 const bcrypt = require('bcrypt');
 
-const FIVE_MINUTES = new Date(Date.now() + 5 * 60 * 1000);
-//האם אני צריך לבדוק לפני כל פונקציה את הטייפ של המשתנים שאני מקבל כדי שלא יכולו להקריס
 dotenv.config();
+
 sgMail.setApiKey(process.env.SEND_GRID_API_KEY as string);
 export const sendforgotPasswordEmail: RequestHandler = async (
   req,
@@ -49,7 +48,6 @@ export const sendforgotPasswordEmail: RequestHandler = async (
   await sgMail.send(emailMessage);
   return res.status(201).json(serverResponse('Email sent successfully'));
 };
-//לא קשור לטלפון להחזיר את היוזר לעמוד הראשי אחרי שינוי סיסמא מוצלח
 export const changePassword: RequestHandler = async (req, res, next) => {
   const { token, newPassword } = req.body;
   if (!token || typeof token !== 'string') {
@@ -163,7 +161,6 @@ export const login: RequestHandler = async (req, res, next) => {
     userExist.email,
     userExist.phoneNumber
   );
-  // res.cookie("login", loginToken, { expires: SEVEN_DAYS, httpOnly: true });
   return res
     .status(201)
     .json(

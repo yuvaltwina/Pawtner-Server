@@ -26,8 +26,6 @@ const userDependencies_1 = __importDefault(require("../utils/validation/userDepe
 const functions_1 = require("../utils/data/functions");
 const functions_2 = require("../utils/data/functions");
 const bcrypt = require('bcrypt');
-const FIVE_MINUTES = new Date(Date.now() + 5 * 60 * 1000);
-//האם אני צריך לבדוק לפני כל פונקציה את הטייפ של המשתנים שאני מקבל כדי שלא יכולו להקריס
 dotenv_1.default.config();
 mail_1.default.setApiKey(process.env.SEND_GRID_API_KEY);
 const sendforgotPasswordEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -51,7 +49,6 @@ const sendforgotPasswordEmail = (req, res, next) => __awaiter(void 0, void 0, vo
     return res.status(201).json((0, serverResponse_1.default)('Email sent successfully'));
 });
 exports.sendforgotPasswordEmail = sendforgotPasswordEmail;
-//לא קשור לטלפון להחזיר את היוזר לעמוד הראשי אחרי שינוי סיסמא מוצלח
 const changePassword = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { token, newPassword } = req.body;
     if (!token || typeof token !== 'string') {
@@ -158,7 +155,6 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         phoneNumber: formatedPhoneNumber,
     };
     const loginToken = (0, jwt_1.generateloginToken)(userExist.username, userExist.email, userExist.phoneNumber);
-    // res.cookie("login", loginToken, { expires: SEVEN_DAYS, httpOnly: true });
     return res
         .status(201)
         .json((0, serverResponse_1.default)('Successfully logged in', { loginToken, userFrontDetails }));

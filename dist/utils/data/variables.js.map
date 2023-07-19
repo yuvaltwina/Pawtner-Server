@@ -1,1 +1,1 @@
-{"version":3,"file":"variables.js","sourceRoot":"","sources":["../../../utils/data/variables.ts"],"names":[],"mappings":";;;AAAa,QAAA,WAAW,GAAG,4BAA4B,CAAC;AAC3C,QAAA,UAAU,GAAG,qCAAqC,CAAC;AAChE,sDAAsD;AACtD,qDAAqD"}
+{"version":3,"file":"variables.js","sourceRoot":"","sources":["../../../utils/data/variables.ts"],"names":[],"mappings":";;;AAAa,QAAA,WAAW,GAAG,OAAO,CAAC,GAAG,CAAC,WAAqB,CAAC;AAChD,QAAA,UAAU,GAAG,OAAO,CAAC,GAAG,CAAC,UAAoB,CAAC;AAC3D,sDAAsD;AACtD,qDAAqD"}
