@@ -5,10 +5,6 @@ const connectDB = (url: string) => {
     useNewUrlParser: true,
     dbName: 'Pawtner',
     useUnifiedTopology: true,
-    // useCreateIndex: true,
-    // useFindAndModify: false,
   });
 };
 export default connectDB;
-
-// module.exports = connectDB;

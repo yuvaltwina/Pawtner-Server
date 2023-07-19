@@ -37,5 +37,4 @@ router.get('/getMyDogs', errorWrapper(getUserDogsList));
 router.post('/deleteFavoriteDog', errorWrapper(deleteDogFromFavorties));
 router.post('/addFavoriteDog', errorWrapper(addDogToFavorties));
 router.get('/getFavoriteDogs', errorWrapper(getUserFavoriteDogs));
-//להוסיף אדמין לעשות שהוא יכול למחוק ולערוך פוסטים של אחרים גם
 export { router as dogsRouter };

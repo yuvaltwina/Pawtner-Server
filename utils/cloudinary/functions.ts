@@ -15,17 +15,10 @@ export const uploadImages = (base64Image: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(base64Image, (err: any, result: any) => {
       if (err) {
-        // Handle the error
-        console.error(err);
         reject(new CustomError(500, 'Upload failed'));
       } else {
-        // Access the uploaded image URL
         const imageUrl: string = result.secure_url;
         resolve(imageUrl);
-        // Do something with the image URL (e.g., store it in a database)
-        // ...
-
-        // Send a response back to the client
       }
     });
   });

@@ -9,6 +9,10 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import connectDB from './db/connect';
 import { WEBSITE_URL } from './utils/data/variables';
+const helmet = require('helmet');
+const xssClean = require('xss-clean');
+const mongoSanitize = require('mongo-sanitize');
+
 // להוסיף את כל הדברי אבטחה מפרוייקטים קודמים
 dotenv.config();
 
@@ -16,13 +20,15 @@ const uri = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
 
 const app = express();
-
+app.use(helmet());
 app.use(
   cors({
     origin: WEBSITE_URL,
-    credentials: true, 
+    credentials: true,
   })
 );
+app.use(xssClean());
+app.use(mongoSanitize());
 
 app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
