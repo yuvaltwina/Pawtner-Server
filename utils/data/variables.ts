@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 dotenv.config();
 
 export const WEBSITE_URL = process.env.WEBSITE_URL as string;
