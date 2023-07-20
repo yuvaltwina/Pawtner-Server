@@ -25,6 +25,9 @@ app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use('/', MainRoute);
+app.get('/', (req, res) => {
+  res.status(200).send('Home');
+});
 app.use(notFound);
 app.use(errorHandler);
 const start = async () => {
