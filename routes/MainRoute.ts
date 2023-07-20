@@ -6,7 +6,5 @@ import serverResponse from '../utils/serverResponse';
 const router = Router();
 router.use('/user', usersRouter);
 router.use('/dog', dogsRouter);
-router.use('/', () => {
-  serverResponse('Home');
-});
+router.use('/', () => serverResponse('Home'));
 export { router as MainRoute };

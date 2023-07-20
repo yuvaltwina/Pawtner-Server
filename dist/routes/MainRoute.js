@@ -12,7 +12,5 @@ const router = (0, express_1.Router)();
 exports.MainRoute = router;
 router.use('/user', User_1.usersRouter);
 router.use('/dog', Dog_1.dogsRouter);
-router.use('/', () => {
-    (0, serverResponse_1.default)('Home');
-});
+router.use('/', () => (0, serverResponse_1.default)('Home'));
 //# sourceMappingURL=MainRoute.js.map
