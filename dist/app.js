@@ -35,6 +35,9 @@ app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json({ limit: '10mb' }));
 app.use(body_parser_1.default.urlencoded({ limit: '10mb', extended: true }));
 app.use('/', MainRoute_1.MainRoute);
+app.get('/', (req, res) => {
+    res.status(200).send('Home');
+});
 app.use(notFound_1.default);
 app.use(errorHandler_1.default);
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
